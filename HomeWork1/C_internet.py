@@ -33,3 +33,50 @@ input: 11
 input: 1 1 10 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 output: 5
 """
+
+
+def main():
+
+    m, seconds = parse_data()
+
+
+def parse_data() -> tuple[int, list[int]]:
+
+    m = int(input())
+    seconds = list(map(int, input().split()))
+
+    return m, seconds
+
+
+def solve(m: int, seconds: list[int]):
+
+    cards = []
+    for precost, seconds in enumerate(seconds):
+        cost = 2 ** precost
+        efficiency = seconds / cost
+        cards.append((cost, seconds, efficiency))
+    # сортируем карточки сначала по убыванию эффективности,
+    # затем по убыванию количества секунд
+    cards = sorted(cards, key=lambda x: (-x[2], -x[1]))
+
+    for cost, seconds, _ in cards:
+        quotient, reminder = divmod(remaining, seconds)
+        # точно покупаем
+        spend += quotient * cost
+        remaining -= quotient * seconds
+
+        # если остались неоплаченные секунды
+        if reminder:
+            # 1. докупиться этой же большой карточкой
+            min_remaining_cost = cost
+            # 2. докупиться другой карточкой поменьше
+            ...
+        else:
+            break
+
+    return spend
+
+
+if __name__ == "__main__":
+    main()
+
