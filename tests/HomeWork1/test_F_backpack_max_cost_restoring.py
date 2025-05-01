@@ -24,7 +24,7 @@ def test_get_options():
 @pytest.mark.parametrize(
     ("m", "items", "expected"),
     [
-        param(6, [(2, 7), (4, 2), (1, 5), (2, 1)], [1, 3, 4]),
+        param(6, [(2, 7), (4, 2), (1, 5), (2, 1)], [4, 3, 1]),
     ],
 )
 def test_F_backpack_max_cost_restoring(m, items, expected):
