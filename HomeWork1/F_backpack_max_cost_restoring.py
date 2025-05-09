@@ -31,6 +31,13 @@ output: 1
 output: 3
 output: 4
 """
+from collections import namedtuple
+
+
+Item = namedtuple("Item", ["weight", "cost"])
+Option = namedtuple("Option", ["sum_cost", "last_index"])
+
+
 def main() -> None:
 
     m, items = parse_data()
@@ -39,26 +46,26 @@ def main() -> None:
         print(i)
 
 
-def parse_data() -> tuple[int, list[tuple[int, int]]]:
+def parse_data() -> tuple[int, list[Item]]:
 
     n, m = map(int, input().split())
     weights = list(map(int, input().split()))
     costs = list(map(int, input().split()))
 
-    items = list(zip(weights, costs))
+    items = [Item(weight, cost) for weight, cost in zip(weights, costs)]
 
     return m, items
 
 
-def solve(m: int, items: list[tuple[int, int]]) -> list[int]:
+def solve(m: int, items: list[Item]) -> list[int]:
 
-    options = get_options(m, items)
+    options_2d = get_options_2d(m, items)
 
-    option = options[-1]
+    options = options_2d[-1]
     max_cost = float("-inf")
     max_cost_weight_in = None
     max_cost_i = None
-    for weight_in, (cost, i) in enumerate(option):
+    for weight_in, (cost, i) in enumerate(options):
         if cost > max_cost:
             max_cost = cost
             max_cost_weight_in = weight_in
@@ -69,30 +76,30 @@ def solve(m: int, items: list[tuple[int, int]]) -> list[int]:
     result = []
     while i != 0:
         result.append(i)
-        option = options[i-1]
+        options = options_2d[i-1]
         weight -= items[i-1][0]
-        _, i = option[weight]
+        _, i = options[weight]
 
     return result
 
 
-def get_options(
-    m: int, items: list[tuple[int, int]]
-) -> list[list[tuple[int, int]]]:
+def get_options_2d(m: int, items: list[Item]) -> list[list[Option]]:
 
-    options = [[(0, 0)] + [(-1, -1)] * m]
-    for i, (weight_by_item, cost_by_item) in enumerate(items, 1):
-        option = options[i - 1].copy()
-        for weight_in in reversed(range(m - weight_by_item + 1)):
-            cost_in, _ = option[weight_in]
-            if cost_in != -1:
-                weight_in_added = weight_in + weight_by_item
-                cost_in_added, _ = option[weight_in_added]
-                if cost_in_added < cost_in + cost_by_item:
-                    option[weight_in_added] = (cost_in + cost_by_item, i)
-        options.append(option)
+    options_2d = [[Option(0, 0)] + [Option(-1, -1)] * m]
+    for i, item in enumerate(items, 1):
+        options = options_2d[-1].copy()
+        for weight_in in reversed(range(m - item.weight + 1)):
+            option_curr = options[weight_in]
+            weight_in_added = weight_in + item.weight
+            option_added = options[weight_in_added]
+            if (
+                option_curr.sum_cost != -1
+                and option_added.sum_cost < option_curr.sum_cost + item.cost
+            ):
+                options[weight_in_added] = Option(option_curr.sum_cost + item.cost, i)
+        options_2d.append(options)
 
-    return options
+    return options_2d
 
 
 if __name__ == "__main__":

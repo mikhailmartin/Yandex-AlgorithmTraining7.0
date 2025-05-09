@@ -56,7 +56,6 @@ class Solver:
 
     def solve(self) -> None:
 
-        self.parse_data()
         self.build_options()
         print("YES" if self.has_solution() else "NO")
         if solution := self.build_solution():
@@ -117,8 +116,10 @@ class Solver:
 
 
 def main() -> None:
-    solution = Solver()
-    solution.solve()
+
+    solver = Solver()
+    solver.parse_data()
+    solver.solve()
 
 
 if __name__ == "__main__":
