@@ -98,7 +98,7 @@ def build_sparse_table(array: list[int]) -> tuple[list[list], list[int]]:
 
 
 def query(
-    sparse_table,
+    sparse_table: list[list],
     depths: list[int],
     left_array_pointer: int,
     right_array_pointer: int,
