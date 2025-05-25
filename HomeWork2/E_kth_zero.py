@@ -43,7 +43,6 @@ input: u 1 0
 input: s 1 5 3
 output: 4
 """
-from typing import Any
 import math
 
 
@@ -54,13 +53,11 @@ class Solver:
         queries: list[tuple] | None = None,
         segment_tree: list[int] | None = None,
         shift: int | None = None,
-        fill_value: Any | None = None,
     ) -> None:
         self.array = array
         self.queries = queries or []
         self.segment_tree = segment_tree
         self.shift = shift
-        self.fill_value = fill_value
 
     def parse_data(self) -> None:
 
@@ -79,13 +76,13 @@ class Solver:
 
     def build_segment_tree(self) -> None:
 
-        self.fill_value = 0
+        fill_value = 0
         power = int(math.log2(len(self.array))) + 1
         self.shift = (pow(2, power) - 1)
         self.segment_tree = (
-            [self.fill_value] * self.shift
+            [fill_value] * self.shift
             + [int(element == 0) for element in self.array]
-            + [self.fill_value] * (pow(2, power) - len(self.array))
+            + [fill_value] * (pow(2, power) - len(self.array))
         )
         for index in reversed(range(pow(2, power) - 1)):
             left_child_index = 2 * index + 1
