@@ -48,7 +48,7 @@ class Solver:
     def __init__(
         self,
         array: list[int] | None = None,
-        queries: list[tuple] | None = None,
+        queries: list[tuple[int, int, int]] | None = None,
         segment_tree: list[int] | None = None,
         shift: int | None = None,
     ) -> None:
@@ -57,7 +57,7 @@ class Solver:
         self.segment_tree = segment_tree
         self.shift = shift
 
-    def parse_data(self):
+    def parse_data(self) -> None:
 
         n, m = map(int, input().split())
         self.array = list(map(int, input().split()))
@@ -97,7 +97,6 @@ class Solver:
                     index = self.s_query(
                         left_segment_border=i-1,
                         right_segment_border=self.shift,
-                        node_index=0,
                         left_node_border=0,
                         right_node_border=self.shift,
                         value=x,
@@ -112,11 +111,11 @@ class Solver:
         self,
         left_segment_border: int,
         right_segment_border: int,
-        node_index: int,
         left_node_border: int,
         right_node_border: int,
         value: int,
-    ):
+        node_index: int = 0,
+    ) -> int:
         if (
             left_segment_border >= left_node_border
             and right_segment_border <= right_node_border
