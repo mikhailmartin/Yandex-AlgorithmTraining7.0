@@ -73,31 +73,30 @@ class Solver:
 
     def build_segment_tree(self) -> None:
         """Строит дерево отрезков в виде массива"""
-        power = 0
-        while True:
-            size = pow(2, power)  # размер нижнего слоя
-            if size >= len(self.array):
-                break
-            else:
-                power += 1
-        self.shift = size - 1  # сдвиг в массиве для доступа к нижнему слою
+        array = self.array
+        n = len(array)
 
-        # ИНИЦИАЛИЗИРУЕМ ДЕРЕВО
-        self.fill_value = float("-inf")
-        # сначала заполняем всё дерево филлером
-        self.segment_tree = [self.fill_value] * (2 * size - 1)
-        # выстраиваем нижний слой
-        for array_index, elem in enumerate(self.array):
-            segment_tree_index = array_index + self.shift
-            self.segment_tree[segment_tree_index] = elem
-        # от нижнего слоя вверх выстраиваем пирамидку
-        for index in reversed(range(size - 1)):
+        power = int(math.log2(n)) + 1
+        size = pow(2, power)  # размер нижнего слоя
+        shift = size - 1  # сдвиг в массиве для доступа к нижнему слою
+
+        fill_value = float("-inf")
+        segment_tree = (
+            [fill_value] * shift
+            + array  # выстраиваем листья
+            + [fill_value] * (size - n)
+        )
+        # выстраиваем внутренние узлы
+        for index in reversed(range(shift)):
             left_child_index = 2 * index + 1
             right_child_index = 2 * index + 2
-            self.segment_tree[index] = max(
-                self.segment_tree[left_child_index],
-                self.segment_tree[right_child_index],
+            segment_tree[index] = max(
+                segment_tree[left_child_index], segment_tree[right_child_index]
             )
+
+        self.shift = shift
+        self.fill_value = fill_value
+        self.segment_tree = segment_tree
 
     def solve(self) -> None:
 

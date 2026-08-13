@@ -82,22 +82,28 @@ class Solver:
             self.queries.append((command, int(operand1), int(operand2)))
 
     def build_segment_tree(self) -> None:
+        """Строит дерево отрезков в виде массива"""
+        array = self.array
+        n = len(array)
 
-        size = 1
-        while size < len(self.array):
+        size = 1  # размер нижнего слоя
+        while size < n:
             size *= 2
-        self.shift = size - 1
+        shift = size - 1  # сдвиг в массиве для доступа к нижнему слою
 
-        for _ in range(self.shift):
+        for _ in range(shift):
             self.segment_tree.append(Filler(0, 0, 0, False))
-        for element in self.array:
+        # выстраиваем листья
+        for element in array:
             is_zero = int(element == 0)
             self.segment_tree.append(Node(is_zero, is_zero, is_zero, bool(is_zero)))
-        for _ in range(size - len(self.array)):
+        for _ in range(size - n):
             self.segment_tree.append(Filler(0, 0, 0, False))
-
-        for index in reversed(range(size - 1)):
+        # выстраиваем внутренние узлы
+        for index in reversed(range(shift)):
             self.segment_tree[index] = self.build_node_from_index(index)
+
+        self.shift = shift
 
     def build_node_from_index(self, index: int) -> Node:
 

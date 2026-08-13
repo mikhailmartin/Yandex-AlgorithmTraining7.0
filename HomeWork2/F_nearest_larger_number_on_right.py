@@ -66,25 +66,31 @@ class Solver:
             self.queries.append((t, i, x))
 
     def build_segment_tree(self) -> None:
+        """Строит дерево отрезков в виде массива"""
+        array = self.array
+        n = len(array)
+
+        size = 1  # размер нижнего слоя
+        while size < n:
+            size *= 2
+        shift = size - 1  # сдвиг в массиве для доступа к нижнему слою
 
         fill_value = float("-inf")
-
-        size = 1
-        while size < len(self.array):
-            size *= 2
-        self.shift = size - 1
-        self.segment_tree = (
-            [fill_value] * self.shift
-            + self.array
-            + [fill_value] * (size - len(self.array))
+        segment_tree = (
+            [fill_value] * shift
+            + array  # выстраиваем листья
+            + [fill_value] * (size - n)
         )
-        for index in reversed(range(size - 1)):
+        # выстраиваем внутренние узлы
+        for index in reversed(range(shift)):
             left_child_index = 2 * index + 1
             right_child_index = 2 * index + 2
-            self.segment_tree[index] = max(
-                self.segment_tree[left_child_index],
-                self.segment_tree[right_child_index],
+            segment_tree[index] = max(
+                segment_tree[left_child_index], segment_tree[right_child_index]
             )
+
+        self.shift = shift
+        self.segment_tree = segment_tree
 
     def solve(self) -> None:
 
