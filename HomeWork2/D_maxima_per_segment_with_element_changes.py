@@ -72,16 +72,26 @@ class Solver:
             self.queries.append((command, int(operand1), int(operand2)))
 
     def build_segment_tree(self) -> None:
+        """Строит дерево отрезков в виде массива"""
+        power = 0
+        while True:
+            size = pow(2, power)  # размер нижнего слоя
+            if size >= len(self.array):
+                break
+            else:
+                power += 1
+        self.shift = size - 1  # сдвиг в массиве для доступа к нижнему слою
 
+        # ИНИЦИАЛИЗИРУЕМ ДЕРЕВО
         self.fill_value = float("-inf")
-        power = int(math.log2(len(self.array))) + 1
-        self.shift = (pow(2, power) - 1)
-        self.segment_tree = (
-            [self.fill_value] * self.shift
-            + self.array
-            + [self.fill_value] * (pow(2, power) - len(self.array))
-        )
-        for index in reversed(range(pow(2, power) - 1)):
+        # сначала заполняем всё дерево филлером
+        self.segment_tree = [self.fill_value] * (2 * size - 1)
+        # выстраиваем нижний слой
+        for array_index, elem in enumerate(self.array):
+            segment_tree_index = array_index + self.shift
+            self.segment_tree[segment_tree_index] = elem
+        # от нижнего слоя вверх выстраиваем пирамидку
+        for index in reversed(range(size - 1)):
             left_child_index = 2 * index + 1
             right_child_index = 2 * index + 2
             self.segment_tree[index] = max(
