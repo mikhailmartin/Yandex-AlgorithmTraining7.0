@@ -1,4 +1,4 @@
-# Тренировки по алгоритмам 7.0
+# [Тренировки по алгоритмам 7.0](https://yandex.ru/yaintern/training/algorithm-training-march-2025)
 
 <details><summary>✔️ HomeWork1 «Жадный алгоритм и задача о рюкзаке»</summary>
 
