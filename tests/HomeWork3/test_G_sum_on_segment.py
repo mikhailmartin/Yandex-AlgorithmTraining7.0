@@ -6,14 +6,14 @@ sys.path.append(parent_dir)
 
 import pytest
 from pytest import param
-from HomeWork3.G_sum_on_segment import Solver, FenwickTree
+from HomeWork3.G_sum_on_segment import Solver, BinaryIndexedTree1D
 
 
-def test_tree_init():
+def test_bit1d_init():
     arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     expected = [0, 1, 2, 6, 4, 9, 6, 28, 8, 17]
-    fenwick_tree = FenwickTree(arr)
-    assert fenwick_tree.tree == expected
+    bit1d = BinaryIndexedTree1D(arr)
+    assert bit1d.tree == expected
 
 
 @pytest.mark.parametrize(
@@ -31,10 +31,10 @@ def test_tree_init():
         param(9, 45),
     ],
 )
-def test_tree__get(idx, expected):
+def test_bit1d__get(idx, expected):
     arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-    fenwick_tree = FenwickTree(arr)
-    assert expected == fenwick_tree._get(idx)
+    bit1d = BinaryIndexedTree1D(arr)
+    assert expected == bit1d._get(idx)
 
 
 @pytest.mark.parametrize(
@@ -48,10 +48,10 @@ def test_tree__get(idx, expected):
         param((8, 9), 17, id="custom6"),
     ],
 )
-def test_tree_get(edges, expected):
+def test_bit1d_get(edges, expected):
     arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-    fenwick_tree = FenwickTree(arr)
-    assert expected == fenwick_tree.get(*edges)
+    bit1d = BinaryIndexedTree1D(arr)
+    assert expected == bit1d.get(*edges)
 
 
 @pytest.mark.parametrize(

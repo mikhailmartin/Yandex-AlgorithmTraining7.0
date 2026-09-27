@@ -44,29 +44,32 @@ from dataclasses import dataclass
 from typing import Self
 
 
-class FenwickTree:
+class BinaryIndexedTree1D:
     def __init__(self, arr: list[int]) -> None:
         n = len(arr)
         self.tree: list[int] = [0] * n
-        for i in range(n):
-            end = i
-            start = i & (i + 1)
-            self.tree[i] = sum(arr[start:end + 1])
+        for x in range(n):
+            end = x
+            start = x & (x + 1)
+            self.tree[x] = sum(arr[start:end+1])
 
-    def update(self, idx: int, value: int) -> None:
-        diff = value - self.get(idx, idx)
-        while idx < len(self.tree):
-            self.tree[idx] += diff
-            idx = idx | (idx + 1)
+    def add(self, x: int, value: int) -> None:
+        while x < len(self.tree):
+            self.tree[x] += value
+            x = x | (x + 1)
+
+    def update(self, x: int, value: int) -> None:
+        diff = value - self.get(x, x)
+        self.add(x, diff)
 
     def get(self, start: int, end: int) -> int:
         return self._get(end) - self._get(start-1)
 
-    def _get(self, idx: int) -> int:
+    def _get(self, x: int) -> int:
         result = 0
-        while idx >= 0:
-            result += self.tree[idx]
-            idx = (idx & (idx + 1)) - 1
+        while x >= 0:
+            result += self.tree[x]
+            x = (x & (x + 1)) - 1
         return result
 
 
@@ -105,16 +108,16 @@ class Solver:
 
     def solve(self) -> list[int]:
 
-        fenwick_tree = FenwickTree([0] * self.data.n)
+        bit = BinaryIndexedTree1D([0] * self.data.n)
 
         result = []
         for query in self.data.queries:
             if query[0] == "A":
                 i, x = query[1], query[2]
-                fenwick_tree.update(i-1, x)
+                bit.update(i-1, x)
             elif query[0] == "Q":
                 l, r = query[1], query[2]
-                answer = fenwick_tree.get(l-1, r-1)
+                answer = bit.get(l-1, r-1)
                 result.append(answer)
 
         return result
