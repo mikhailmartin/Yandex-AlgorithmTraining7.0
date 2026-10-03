@@ -47,6 +47,34 @@ from dataclasses import dataclass
 from typing import Self
 
 
+class UnionFind:
+    def __init__(self, n: int) -> None:
+        self.parent = list(range(n))
+        self.rank = [0] * n
+        self.components = n
+
+    def find(self, x: int) -> int:
+        while self.parent[x] != x:
+            self.parent[x] = self.parent[self.parent[x]]
+            x = self.parent[x]
+        return x
+
+    def union(self, x: int, y: int) -> bool:
+        rx, ry = self.find(x), self.find(y)
+        if rx == ry:
+            return False
+        if self.rank[rx] < self.rank[ry]:
+            rx, ry = ry, rx
+        self.parent[ry] = rx
+        if self.rank[rx] == self.rank[ry]:
+            self.rank[rx] += 1
+        self.components -= 1
+        return True
+
+    def connected(self, x: int, y: int) -> bool:
+        return self.find(x) == self.find(y)
+
+
 @dataclass
 class ProblemInput:
     n: int
@@ -77,30 +105,11 @@ class Solver:
 
     def solve(self) -> int:
 
-        keys = list(range(self.data.n))
-
+        union_find = UnionFind(self.data.n)
         for i, key in enumerate(self.data.keys):
-            j = key - 1
-            stack = [i]
-            while keys[j] != j:
-                stack.append(j)
-                j = keys[j]
+            union_find.union(i, key-1)
 
-            while stack:
-                keys[stack.pop()] = j
-
-        for i in range(self.data.n):
-            j = keys[i]
-            stack = [i]
-            while keys[j] != j:
-                stack.append(j)
-                j = keys[j]
-
-            while stack:
-                k = stack.pop()
-                keys[k] = j
-
-        return len(set(keys))
+        return union_find.components
 
 
 def main() -> None:
