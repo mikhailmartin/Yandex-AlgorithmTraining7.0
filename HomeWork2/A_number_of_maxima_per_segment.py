@@ -30,14 +30,16 @@
 элементов на этом отрезке.
 
 
-Пример
-input: 5
-input: 2 2 2 1 5
-input: 2
-input: 2 3
-input: 2 5
-output: 2 2
-output: 5 1
+Пример:
+input:
+5
+2 2 2 1 5
+2
+2 3
+2 5
+output:
+2 2
+5 1
 """
 import math
 

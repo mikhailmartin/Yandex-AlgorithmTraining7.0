@@ -35,15 +35,17 @@
 и ’-’ в противном случае в одну строку без пробелов.
 
 
-Пример
-input: 5
-input: 1 2 1 2 1
-input: 4
-input: 1 2 4 2
-input: 0 3 5 2
-input: 1 1 3 2
-input: 1 2 3 3
-output: +-+
+Пример:
+input:
+5
+1 2 1 2 1
+4
+1 2 4 2
+0 3 5 2
+1 1 3 2
+1 2 3 3
+output:
++-+
 """
 from dataclasses import dataclass
 from typing import Self

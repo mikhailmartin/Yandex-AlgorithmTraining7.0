@@ -36,18 +36,20 @@
 что и во входном файле.
 
 
-Пример
-input: 5
-input: 328 0 0 0 0
-input: 5
-input: QUERY 1 3
-input: UPDATE 2 832
-input: QUERY 3 3
-input: QUERY 2 3
-input: UPDATE 2 0
-output: 2
-output: 1
-output: 1
+Пример:
+input:
+5
+328 0 0 0 0
+5
+QUERY 1 3
+UPDATE 2 832
+QUERY 3 3
+QUERY 2 3
+UPDATE 2 0
+output:
+2
+1
+1
 """
 from collections import namedtuple
 

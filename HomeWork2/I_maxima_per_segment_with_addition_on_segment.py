@@ -34,16 +34,18 @@
 Выведите в одну строку через пробел ответы на каждый запрос m.
 
 
-Пример
-input: 5
-input: 2 4 3 1 5
-input: 5
-input: m 1 3
-input: a 2 4 100
-input: m 1 3
-input: a 5 5 10
-input: m 1 5
-output: 4 104 104
+Пример:
+input:
+5
+2 4 3 1 5
+5
+m 1 3
+a 2 4 100
+m 1 3
+a 5 5 10
+m 1 5
+output:
+4 104 104
 """
 class Node:
     def __init__(self, maxima: int | float, prop: int) -> None:

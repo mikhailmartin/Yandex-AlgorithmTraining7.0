@@ -33,19 +33,21 @@
 Выведите в одну строку через пробел ответы на каждый запрос g.
 
 
-Пример
-input: 5
-input: 2 4 3 5 2
-input: 5
-input: g 2
-input: g 5
-input: a 1 3 10
-input: g 2
-input: g 4
-output: 4
-output: 2
-output: 14
-output: 5
+Пример:
+input:
+5
+2 4 3 5 2
+5
+g 2
+g 5
+a 1 3 10
+g 2
+g 4
+output:
+4
+2
+14
+5
 """
 class Solver:
     def __init__(

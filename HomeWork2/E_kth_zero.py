@@ -34,14 +34,16 @@ u — обновить значение элемента).
 данного запроса.
 
 
-Пример
-input: 5
-input: 0 0 3 0 2
-input: 3
-input: u 1 5
-input: u 1 0
-input: s 1 5 3
-output: 4
+Пример:
+input:
+5
+0 0 3 0 2
+3
+u 1 5
+u 1 0
+s 1 5 3
+output:
+4
 """
 import math
 

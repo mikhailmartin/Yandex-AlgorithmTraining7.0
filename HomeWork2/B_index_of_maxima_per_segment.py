@@ -30,14 +30,16 @@
 Числа выводите по одному в строке.
 
 
-Пример
-input: 5
-input: 2 2 2 1 5
-input: 2
-input: 2 3
-input: 2 5
-output: 3
-output: 5
+Пример:
+input:
+5
+2 2 2 1 5
+2
+2 3
+2 5
+output:
+3
+5
 """
 import math
 

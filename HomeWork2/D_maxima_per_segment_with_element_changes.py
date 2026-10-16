@@ -33,16 +33,18 @@ u — обновить значение элемента).
 пробел.
 
 
-Пример
-input: 5
-input: 1 2 3 4 5
-input: 5
-input: s 1 5
-input: u 3 10
-input: s 1 5
-input: u 2 12
-input: s 1 3
-output: 5 10 12
+Пример:
+input:
+5
+1 2 3 4 5
+5
+s 1 5
+u 3 10
+s 1 5
+u 2 12
+s 1 3
+output:
+5 10 12
 """
 import math
 

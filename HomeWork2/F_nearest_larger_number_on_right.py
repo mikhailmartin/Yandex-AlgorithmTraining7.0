@@ -28,18 +28,20 @@ t = 1 соответствует запросу типа get, 1 ≤ i ≤ n, 0 �
 Если такого k не существует, выведите −1.
 
 
-Пример
-input: 4 5
-input: 1 2 3 4
-input: 1 1 1
-input: 1 1 3
-input: 1 1 5
-input: 0 2 3
-input: 1 1 3
-output: 1
-output: 3
-output: -1
-output: 2
+Пример:
+input:
+4 5
+1 2 3 4
+1 1 1
+1 1 3
+1 1 5
+0 2 3
+1 1 3
+output:
+1
+3
+-1
+2
 """
 NO_SOLUTION = -2
 

@@ -30,16 +30,18 @@
 отрезку от l до r, на котором достигается этот максимум.
 
 
-Пример
-input: 5
-input: 7 3 1 6 4
-input: 3
-input: 1 5
-input: 2 4
-input: 3 3
-output: 7 1
-output: 6 4
-output: 1 3
+Пример:
+input:
+5
+7 3 1 6 4
+3
+1 5
+2 4
+3 3
+output:
+7 1
+6 4
+1 3
 """
 import math
 
