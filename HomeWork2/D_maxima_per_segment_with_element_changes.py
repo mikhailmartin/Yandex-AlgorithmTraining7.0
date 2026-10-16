@@ -46,90 +46,38 @@ s 1 3
 output:
 5 10 12
 """
+import sys
 import math
 
 
-class Solver:
-    def __init__(
-        self,
-        array: list[int] | None = None,
-        queries: list[tuple[str, int, int]] | None = None,
-        segment_tree: list[int | float] | None = None,
-        fill_value: float | None = None,
-        shift: int | None = None,
-    ) -> None:
-        self.array = array
-        self.queries = queries or []
-        self.segment_tree = segment_tree
-        self.fill_value = fill_value
-        self.shift = shift
-
-    def parse_data(self) -> None:
-
-        n = int(input())
-        self.array = list(map(int, input().split()))
-        m = int(input())
-        for _ in range(m):
-            command, operand1, operand2 = input().split()
-            self.queries.append((command, int(operand1), int(operand2)))
-
-    def build_segment_tree(self) -> None:
-        """Строит дерево отрезков в виде массива"""
-        array = self.array
+class SegmentTree:
+    def __init__(self, array: list[int], fill_value: float = float("-inf")) -> None:
         n = len(array)
 
         power = int(math.log2(n)) + 1
         size = pow(2, power)  # размер нижнего слоя
         shift = size - 1  # сдвиг в массиве для доступа к нижнему слою
 
-        fill_value = float("-inf")
-        segment_tree = (
+        tree = (
             [fill_value] * shift
             + array  # выстраиваем листья
             + [fill_value] * (size - n)
         )
         # выстраиваем внутренние узлы
-        for index in reversed(range(shift)):
-            left_child_index = 2 * index + 1
-            right_child_index = 2 * index + 2
-            segment_tree[index] = max(
-                segment_tree[left_child_index], segment_tree[right_child_index]
-            )
+        for i in reversed(range(shift)):
+            left_child_i = 2 * i + 1
+            right_child_i = 2 * i + 2
+            tree[i] = max(tree[left_child_i], tree[right_child_i])
 
         self.shift = shift
         self.fill_value = fill_value
-        self.segment_tree = segment_tree
-
-    def solve(self) -> None:
-
-        answer = []
-        for command, operand1, operand2 in self.queries:
-            match command:
-                case "s":
-                    left_segment_border = operand1 - 1
-                    right_segment_border = operand2 - 1
-                    node_index = 0
-                    left_node_border = 0
-                    right_node_border = self.shift
-
-                    maxima = self.s_query(
-                        left_segment_border,
-                        right_segment_border,
-                        node_index,
-                        left_node_border,
-                        right_node_border,
-                    )
-
-                    answer.append(str(maxima))
-                case "u":
-                    self.u_query(operand1, operand2)
-        print(" ".join(answer))
+        self.tree = tree
 
     def s_query(
         self,
         left_segment_border: int,
         right_segment_border: int,
-        node_index: int,
+        node_i: int,
         left_node_border: int,
         right_node_border: int,
     ) -> int | float:
@@ -146,29 +94,29 @@ class Solver:
             left_segment_border <= left_node_border
             and right_segment_border >= right_node_border
         ):
-            return self.segment_tree[node_index]
+            return self.tree[node_i]
 
         # сегмент частично накрывает узел
         else:
-            left_child_node_index = 2 * node_index + 1
+            left_child_node_i = 2 * node_i + 1
             left_child_left_border = left_node_border
             left_child_right_border = (left_node_border + right_node_border) // 2
 
-            right_child_node_index = 2 * node_index + 2
+            right_child_node_i = 2 * node_i + 2
             right_child_left_border = (left_node_border + right_node_border) // 2 + 1
             right_child_right_border = right_node_border
 
             left_child_maxima = self.s_query(
                 left_segment_border,
                 right_segment_border,
-                left_child_node_index,
+                left_child_node_i,
                 left_child_left_border,
                 left_child_right_border,
             )
             right_child_maxima = self.s_query(
                 left_segment_border,
                 right_segment_border,
-                right_child_node_index,
+                right_child_node_i,
                 right_child_left_border,
                 right_child_right_border,
             )
@@ -177,34 +125,54 @@ class Solver:
 
     def u_query(self, number: int, value: int) -> None:
 
-        index = number + self.shift - 1
-        self.segment_tree[index] = value
-        parent_index = (index - 1) // 2
+        i = number + self.shift - 1
+        self.tree[i] = value
+        parent_i = (i - 1) // 2
         flag = True
         while flag:
-            if parent_index == 0:
+            if parent_i == 0:
                 flag = False
-            left_child_index = 2 * parent_index + 1
-            right_child_index = 2 * parent_index + 2
-            old_parent_value = self.segment_tree[parent_index]
-            new_parent_value = max(
-                self.segment_tree[left_child_index],
-                self.segment_tree[right_child_index],
-            )
+            left_child_i = 2 * parent_i + 1
+            right_child_i = 2 * parent_i + 2
+            old_parent_value = self.tree[parent_i]
+            new_parent_value = max(self.tree[left_child_i], self.tree[right_child_i])
             if old_parent_value != new_parent_value:
-                self.segment_tree[parent_index] = new_parent_value
-                parent_index = (parent_index - 1) // 2
+                self.tree[parent_i] = new_parent_value
+                parent_i = (parent_i - 1) // 2
             else:
                 flag = False
 
 
-def main() -> None:
+def main(lines: list[str] | None = None) -> list[int]:
 
-    solver = Solver()
-    solver.parse_data()
-    solver.build_segment_tree()
-    solver.solve()
+    lines = lines or sys.stdin.read().splitlines()
+
+    n = int(lines[0])
+    array = list(map(int, lines[1].split()))
+    segment_tree = SegmentTree(array)
+
+    result = []
+    m = int(lines[2])
+    for i in range(m):
+        command, operand1, operand2 = lines[3+i].split()
+        operand1 = int(operand1)
+        operand2 = int(operand2)
+
+        if command == "s":
+            maxima = segment_tree.s_query(
+                left_segment_border=operand1-1,
+                right_segment_border=operand2-1,
+                node_i=0,
+                left_node_border=0,
+                right_node_border=segment_tree.shift,
+            )
+            result.append(maxima)
+        else:
+            segment_tree.u_query(operand1, operand2)
+
+    return result
 
 
 if __name__ == "__main__":
-    main()
+    result = main()
+    print(" ".join(map(str, result)))
