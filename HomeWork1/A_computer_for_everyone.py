@@ -3,8 +3,8 @@
 
 Ограничение времени - 1 секунда
 Ограничение памяти - 64Mb
-Ввод - стандартный ввод или input.txt
-Вывод - стандартный вывод или output.txt
+Ввод - стандартный ввод
+Вывод - стандартный вывод
 
 В новом учебном году во Дворец Творчества Юных для занятий в компьютерных
 классах пришли учащиеся, которые были разбиты на N групп. В i-й группе оказалось
@@ -21,9 +21,9 @@ Y_j компьютеров. Для занятий необходимо, чтоб
 
 Формат ввода:
 На первой строке входного файла расположены числа N и M (1 ≤ N ≤ M ≤ 1000).
-На второй строке расположено N чисел — X_1, …, X_N (1 ≤ X_i ≤ 1000 для всех
-1 ≤ i ≤ N). На третьей строке расположено M чисел Y_1, ..., Y_M (1 ≤ Y_i ≤ 1000
-для всех 1 ≤ i ≤ M).
+На второй строке расположено N чисел — X_1, …, X_N (1 ≤ X_i ≤ 1000
+для всех 1 ≤ i ≤ N). На третьей строке расположено M чисел Y_1, ..., Y_M
+(1 ≤ Y_i ≤ 1000 для всех 1 ≤ i ≤ M).
 
 
 Формат вывода:
@@ -35,68 +35,57 @@ Y_j компьютеров. Для занятий необходимо, чтоб
 равно 0. Если допустимых распределений несколько, выведите любое из них.
 
 
-Пример 1
-input: 1 1
-input: 1
-input: 2
-output: 1
-output: 1
+Пример 1:
+input:
+1 1
+1
+2
+output:
+1
+1
 
-Пример 2
-input: 1 1
-input: 1
-input: 1
-output: 0
-output: 0
+Пример 2:
+input:
+1 1
+1
+1
+output:
+0
+0
 """
-def main() -> None:
-
-    groups, classrooms = parse_data()
-    counter, distribution = solve(groups, classrooms)
-    print(counter)
-    print(*distribution)
+import sys
 
 
-def parse_data() -> tuple[list[int], list[int]]:
+def main(lines: list[str] | None = None) -> tuple[int, list[int]]:
 
-    n, m = map(int, input().split())
-    groups = list(map(int, input().split()))
-    classrooms = list(map(int, input().split()))
+    lines = lines or sys.stdin.read().splitlines()
 
-    return groups, classrooms
+    n, m = map(int, lines[0].split())
+    groups = [(i, num+1) for i, num in enumerate(map(int, lines[1].split()), 1)]
+    classrooms = list(enumerate(map(int, lines[2].split()), 1))
 
+    groups.sort(key=lambda x: x[1])
+    classrooms.sort(key=lambda x: x[1])
 
-def solve(groups: list[int], classrooms: list[int]) -> tuple[int, list[int]]:
-
-    groups = list(enumerate(groups))
-    classrooms = list(enumerate(classrooms))
-
-    groups = sorted(groups, key=lambda x: x[1], reverse=True)
-    classrooms = sorted(classrooms, key=lambda x: x[1], reverse=True)
-
-    group_pointer = 0
-    classroom_pointer = 0
-    counter = 0
-    distribution = []
-    while group_pointer < len(groups) and classroom_pointer < len(classrooms):
-
-        group_index, group = groups[group_pointer]
-        classroom_index, classroom = classrooms[classroom_pointer]
-
-        if classroom >= group + 1:
-            counter += 1
-            distribution.append((group_index, classroom_index+1))
-            group_pointer += 1
-            classroom_pointer += 1
+    count = 0
+    distribution = [0] * n
+    g_ptr = 0
+    c_ptr = 0
+    while g_ptr < n and c_ptr < m:
+        i, group = groups[g_ptr]
+        j, classroom = classrooms[c_ptr]
+        if group <= classroom:
+            count += 1
+            distribution[i-1] = j
+            g_ptr += 1
+            c_ptr += 1
         else:
-            group_pointer += 1
-            distribution.append((group_index, 0))
+            c_ptr += 1
 
-    distribution = sorted(distribution, key=lambda x: x[0])
-    distribution = [classroom_index for group_index, classroom_index in distribution]
-
-    return counter, distribution
+    return count, distribution
 
 
 if __name__ == "__main__":
-    main()
+    result = main()
+    print(result[0])
+    print(*result[1])
