@@ -6,7 +6,9 @@ sys.path.append(parent_dir)
 
 import pytest
 from pytest import param
-from HomeWork3.J_packaging_and_unpacking import Solver
+from HomeWork3.J_packaging_and_unpacking.main import (
+    encode_lzw, encoded_to_bits, bits_to_bytes, bytes_to_nums, nums_to_bytes, main
+)
 
 
 @pytest.mark.parametrize(
@@ -23,7 +25,7 @@ from HomeWork3.J_packaging_and_unpacking import Solver
     ],
 )
 def test_encode_lzw(string, encoded):
-    assert Solver.encode_lzw(string) == encoded
+    assert encode_lzw(string) == encoded
 
 
 @pytest.mark.parametrize(
@@ -40,7 +42,7 @@ def test_encode_lzw(string, encoded):
     ],
 )
 def test_encoded_to_bits(encoded, bits):
-    assert Solver.encoded_to_bits(encoded) == bits
+    assert encoded_to_bits(encoded) == bits
 
 
 @pytest.mark.parametrize(
@@ -57,7 +59,7 @@ def test_encoded_to_bits(encoded, bits):
     ],
 )
 def test_bits_to_bytes(bits, bytes):
-    assert Solver.bits_to_bytes(bits) == bytes
+    assert bits_to_bytes(bits) == bytes
 
 
 @pytest.mark.parametrize(
@@ -74,7 +76,7 @@ def test_bits_to_bytes(bits, bytes):
     ],
 )
 def test_bytes_to_nums(bytes, nums):
-    assert Solver.bytes_to_nums(bytes) == nums
+    assert bytes_to_nums(bytes) == nums
 
 
 @pytest.mark.parametrize(
@@ -85,8 +87,8 @@ def test_bytes_to_nums(bytes, nums):
     ],
 )
 def test_nums_to_bytes(bytes):
-    nums = Solver.bytes_to_nums(bytes)
-    assert Solver.nums_to_bytes(nums) == bytes
+    nums = bytes_to_nums(bytes)
+    assert nums_to_bytes(nums) == bytes
 
 
 @pytest.mark.parametrize(
@@ -96,11 +98,7 @@ def test_nums_to_bytes(bytes):
         param("abacabacaabaac", id="custom1"),
     ],
 )
-def test_solve(string):
-    solver1 = Solver.from_strings(["pack", string])
-    result1 = solver1.solve()
-
-    solver2 = Solver.from_strings(["unpack", *result1.split("\n")])
-    result2 = solver2.solve()
-
+def test_main(string):
+    result1 = main(["pack", string])
+    result2 = main(["unpack", *result1.split("\n")])
     assert result2 == string

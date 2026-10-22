@@ -1,9 +1,7 @@
 import sys
 sys.path.append("../..")
 
-import pytest
-from pytest import param
-from HomeWork2.A_number_of_maxima_per_segment import build_sparse_table, query
+from HomeWork2.A_number_of_maxima_per_segment.main import build_sparse_table, query
 
 
 ARRAY1 = [7, 1, 2, 4, 2, 3, 1]

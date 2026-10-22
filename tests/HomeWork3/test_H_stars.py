@@ -6,7 +6,7 @@ sys.path.append(parent_dir)
 
 import pytest
 from pytest import param
-from HomeWork3.H_stars import Solver, BinaryIndexedTree2D
+from HomeWork3.H_stars.main import main, BinaryIndexedTree2D
 
 
 def test_bit2d_init():
@@ -58,6 +58,5 @@ def test_bit2d_get(edges, expected):
         ),
     ],
 )
-def test_solve(lines, expected):
-    solver = Solver.from_strings(lines)
-    assert solver.solve() == expected
+def test_main(lines, expected):
+    assert main(lines) == expected

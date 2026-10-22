@@ -1,7 +1,7 @@
 import sys
 sys.path.append("../..")
 
-from HomeWork2.H_segment_tree_with_operation_on_segment import Solver
+from HomeWork2.H_segment_tree_with_operation_on_segment.main import Solver
 
 
 ARRAY1 = [2, 4, 3, 5, 2]

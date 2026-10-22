@@ -6,7 +6,7 @@ sys.path.append(parent_dir)
 
 import pytest
 from pytest import param
-from HomeWork3.I_fixing_one_error import Solver
+from HomeWork3.I_fixing_one_error.main import main
 
 
 @pytest.mark.parametrize(
@@ -24,6 +24,5 @@ from HomeWork3.I_fixing_one_error import Solver
         ),
     ],
 )
-def test_solve(lines, expected):
-    solver = Solver.from_strings(lines)
-    assert solver.solve() == expected
+def test_main(lines, expected):
+    assert main(lines) == expected

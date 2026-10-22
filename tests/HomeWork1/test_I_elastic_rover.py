@@ -3,7 +3,7 @@ sys.path.append("../..")
 
 import pytest
 from pytest import param
-from HomeWork1.I_elastic_rover import Product, Solver
+from HomeWork1.I_elastic_rover.main import Product, Solver
 
 
 PRODUCTS1 = [

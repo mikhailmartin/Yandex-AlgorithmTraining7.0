@@ -1,17 +1,19 @@
+import os
 import sys
-sys.path.append("../..")
+
+parent_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(parent_dir)
 
 import pytest
 from pytest import param
-from HomeWork1.D_backpack_max_weight import solve
+from HomeWork1.D_backpack_max_weight.main import main
 
 
 @pytest.mark.parametrize(
-    ("m", "weights", "expected"),
+    ("lines", "expected"),
     [
-        param(5968, [18], 18),  # тест 1
+        param(["1 5968", "18"], 18, id="example"),
     ]
 )
-def test_D_backpack_max_weight(m, weights, expected):
-
-    assert solve(m, weights) == expected
+def test_main(lines, expected):
+    assert main(lines) == expected

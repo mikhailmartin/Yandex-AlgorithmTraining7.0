@@ -1,7 +1,7 @@
 import sys
 sys.path.append("../..")
 
-from HomeWork2.F_nearest_larger_number_on_right import Solver
+from HomeWork2.F_nearest_larger_number_on_right.main import Solver
 
 
 ARRAY1 = [1, 2, 3, 4]

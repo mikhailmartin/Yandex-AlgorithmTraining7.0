@@ -8,7 +8,7 @@ sys.path.append(parent_dir)
 
 import pytest
 from pytest import param
-from HomeWork3.C_reordering_with_XOR import Solver
+from HomeWork3.C_reordering_with_XOR.main import main
 
 
 @pytest.mark.parametrize(
@@ -56,9 +56,8 @@ from HomeWork3.C_reordering_with_XOR import Solver
         ),
     ],
 )
-def test_solve(lines, expected):
-    solver = Solver.from_strings(lines)
-    ok, nums = solver.solve()
+def test_main(lines, expected):
+    ok, nums = main(lines)
     assert ok == expected
     if ok:
         assert (reduce(xor, nums) == 0) == expected

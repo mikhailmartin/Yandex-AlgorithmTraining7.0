@@ -1,9 +1,12 @@
+import os
 import sys
-sys.path.append("../..")
+
+parent_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(parent_dir)
 
 import pytest
 from pytest import param
-from HomeWork1.G_two_walls import Solver
+from HomeWork1.G_two_walls.main import build_options, has_solution
 
 
 WALL1 = [
@@ -29,11 +32,7 @@ OPTIONS2 = [
     ],
 )
 def test_build_options(wall, expected):
-
-    solver = Solver(wall=wall)
-    solver.build_options()
-
-    assert solver.options == expected
+    assert build_options(wall) == expected
 
 
 @pytest.mark.parametrize(
@@ -44,11 +43,6 @@ def test_build_options(wall, expected):
     ],
 )
 def test_has_solution(wall, expected):
-
-    solver = Solver(wall=wall)
-    solver.build_options()
-    flag = solver.has_solution()
-
-    print(solver.common_splits)
-
-    assert flag == expected
+    options = build_options(wall)
+    common_splits = has_solution(options)
+    assert bool(common_splits) == expected

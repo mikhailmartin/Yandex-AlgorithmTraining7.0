@@ -3,7 +3,7 @@ sys.path.append("../..")
 
 import pytest
 from pytest import param
-from HomeWork1.J_asceticism import Solver
+from HomeWork1.J_asceticism.main import Solver
 
 
 EVENTS1 = [

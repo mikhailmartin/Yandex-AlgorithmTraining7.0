@@ -1,7 +1,7 @@
 import sys
 sys.path.append("../..")
 
-from HomeWork2.G_zeros import Solver, Node, Filler
+from HomeWork2.G_zeros.main import Solver, Node, Filler
 
 
 ARRAY_1 = [328, 0, 0, 0, 0]

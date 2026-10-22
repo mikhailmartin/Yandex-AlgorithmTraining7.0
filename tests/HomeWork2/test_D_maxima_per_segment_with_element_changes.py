@@ -6,7 +6,7 @@ sys.path.append(parent_dir)
 
 import pytest
 from pytest import param
-from HomeWork2.D_maxima_per_segment_with_element_changes import main
+from HomeWork2.D_maxima_per_segment_with_element_changes.main import main
 
 
 @pytest.mark.parametrize(
@@ -24,9 +24,9 @@ from HomeWork2.D_maxima_per_segment_with_element_changes import main
                 "s 1 3",
             ],
             [5, 10, 12],
-            id="example1",
+            id="example",
         ),
     ],
 )
-def test1(lines, expected):
+def test_main(lines, expected):
     assert main(lines) == expected

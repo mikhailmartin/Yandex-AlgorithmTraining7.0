@@ -1,7 +1,7 @@
 import sys
 sys.path.append("../..")
 
-from HomeWork2.I_maxima_per_segment_with_addition_on_segment import Solver, Node
+from HomeWork2.I_maxima_per_segment_with_addition_on_segment.main import Solver, Node
 
 
 ARRAY1 = [2, 4, 3, 1, 5]

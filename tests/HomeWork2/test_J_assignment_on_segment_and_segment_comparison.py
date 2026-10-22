@@ -5,7 +5,7 @@ sys.path.append(parent_dir)
 
 import pytest
 from pytest import param
-from HomeWork2.J_assignment_on_segment_and_segment_comparison import Solver
+from HomeWork2.J_assignment_on_segment_and_segment_comparison.main import Solver
 
 
 @pytest.mark.parametrize(
